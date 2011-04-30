@@ -1,7 +1,8 @@
 {
-    "name": "LiveNotify",
+    "name": "JustNotify",
     "version": "0",
-    "description": "Check the status of your favourite live streams, and display a notification when a stream goes online!",
+    "description": "Check the status of your favourite Justin.tv streams, and display a notification when a stream goes online!",
     "background_page": "background.html",
-    "permissions": ["http://*/*", "notifications"]
+    "permissions": ["http://api.justin.tv/api/user/favorites/*", "http://api.justin.tv/api/stream/list.json", "notifications"],
+    "default_locale": "en"
 }

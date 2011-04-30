@@ -1,6 +1,6 @@
 /*
  * constants.js
- * Constants for LiveNotify
+ * Constants for JustNotify
  *
  * Copyright (C) 2011 Håvard Pettersson.
  *
@@ -14,4 +14,18 @@ VERSION = "0";
 KEY = {
 	configuration: "configuration",
     justintv: "justintv",
+    frequency: "frequency",
+};
+
+DEFAULTS = {
+    frequency: 10, // interval in seconds to update
+};
+
+SUBSTITUTE = {
+	username: "%USER%",
+};
+
+URL = {
+	justintv_favorites: "http://api.justin.tv/api/user/favorites/" + SUBSTITUTE.username + ".json",
+	justintv_stream: "http://api.justin.tv/api/stream/list.json",
 };

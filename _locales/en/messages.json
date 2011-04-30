@@ -1,2 +1,15 @@
 {
+	"just_went_online":
+	{
+		"message": "just went online at $SITE$!",
+		"description": "Small text in notification window, below the channel title.",
+		"placeholders":
+		{
+			"site":
+			{
+					"content": "$1",
+					"example": "Justin.tv"
+			}
+		}
+	}
 }

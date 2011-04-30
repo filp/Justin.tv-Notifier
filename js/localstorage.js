@@ -1,6 +1,6 @@
 /*
  * localstorage.js
- * Service and localStorage framework for LiveNotify
+ * Service and localStorage framework for JustNotify
  *
  * Copyright (C) 2011 Håvard Pettersson.
  *
@@ -40,11 +40,14 @@ var Configuration = {
     {
         var config = storage_get(KEY.configuration);
         config[index] = value;
-        storage_set(KEY.users, config);
+        storage_set(KEY.configuration, config);
     },
 
     get justintv_username() { return this._get_value(KEY.justintv); },
     set justintv_username(value) { this._set_value(KEY.justintv, value); },
+
+    get frequency() { return this._get_value(KEY.frequency); },
+    set frequency(value) { this._set_value(KEY.frequency, value*1000); },
 }
 
 // initialize the configuration table
@@ -52,3 +55,12 @@ if (!storage_get(KEY.configuration))
 {
     storage_set(KEY.configuration, {});
 }
+
+// load defaults
+$.each(DEFAULTS, function(key, value)
+{
+    if (Configuration[key] == undefined)
+    {
+        Configuration[key] = value;
+    }
+});
