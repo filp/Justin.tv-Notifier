@@ -1,0 +1,7 @@
+{
+    "name": "LiveNotify",
+    "version": "0",
+    "description": "Check the status of your favourite live streams, and display a notification when a stream goes online!",
+    "background_page": "background.html",
+    "permissions": ["http://*/*", "notifications"]
+}
