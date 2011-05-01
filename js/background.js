@@ -13,8 +13,13 @@ Configuration.username = "harpyon";
 Configuration.frequency = 300;
 
 // keep track of online streams
-var online = [];
 var channels;
+
+// initialize
+$(function()
+{
+	update_channels();
+});
 
 function update_channels()
 {
@@ -22,14 +27,18 @@ function update_channels()
 	var url = URL.favorites.replace(SUBSTITUTE.username, Configuration.username);
 	$.getJSON(url, null, function(data, textStatus, jqXHR)
 	{
-		channels = [];
+		channels = {};
 		$.each(data, function(index, channel)
 		{
-			channels.push(channel.login);
+			// initially set the channel to offline (false)
+			channels[channel.login] = false;
 		});
 
 		// add user-defined channels
-		$.extend(channels, Configuration.channels);
+		$.each(Configuration.channels, function(index, channel)
+		{
+			channels[channel] = false;
+		});
 		console.log("Channels:", channels);
 
 		// update channel statuses
@@ -40,7 +49,7 @@ function update_channels()
 function poll()
 {
 	console.log("Checking channels...");
-	$.each(channels, function(index, channel)
+	$.each(channels, function(channel, online)
 	{
 		$.getJSON(URL.stream, { "channel": channel }, (function(channel)
 		{
@@ -50,7 +59,7 @@ function poll()
 				{
 					// stream is online
 					stream = data[0];
-					if (online.indexOf(stream.channel.login) == -1)
+					if (!channels[channel])
 					{
 						if (Configuration.show_notification)
 						{
@@ -61,14 +70,14 @@ function poll()
 
 							webkitNotifications.createNotification(icon, title, text).show();
 						}
-						online.push(stream.channel.login);
+						channels[channel] = true;
 						console.log("Online:", stream.channel.title);
 					}
 				}
 				else
 				{
 					// stream is offline
-					online.splice(online.indexOf(channel), 1);
+					channels[channel] = false;
 					console.log("Offline:", channel);
 				}
 			};
@@ -77,6 +86,3 @@ function poll()
 	console.log("Next check in " + Configuration.frequency/1000 + " seconds");
 	setTimeout(poll, Configuration.frequency);
 }
-
-// get channel list and start polling
-update_channels();
