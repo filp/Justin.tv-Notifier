@@ -27,7 +27,7 @@ function storage_set(index, value)
     localStorage.setItem(index, JSON.stringify(value));
 }
 
-// Helper class for accessing usernames in localStorage
+// Helper class for accessing settings in localStorage
 var Configuration = {
     // fetch a value from the configuration table
     _get_value: function(index)
@@ -43,12 +43,22 @@ var Configuration = {
         storage_set(KEY.configuration, config);
     },
 
-    get justintv_username() { return this._get_value(KEY.justintv); },
-    set justintv_username(value) { this._set_value(KEY.justintv, value); },
-
     get frequency() { return this._get_value(KEY.frequency); },
     set frequency(value) { this._set_value(KEY.frequency, value*1000); },
 }
+
+// add regular settings to Configuration
+$.each(SETTINGS, function(id, setting)
+{
+    Configuration.__defineGetter__(setting, (function(setting)
+    {
+        return function() { return this._get_value(KEY[setting]); };
+    })(setting));
+    Configuration.__defineSetter__(setting, (function(setting)
+    {
+        return function(value) { return this._set_value(KEY[setting], value); };
+    })(setting));
+});
 
 // initialize the configuration table
 if (!storage_get(KEY.configuration))

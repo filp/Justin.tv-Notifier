@@ -13,12 +13,18 @@ VERSION = "0";
 
 KEY = {
 	configuration: "configuration",
-    justintv: "justintv",
+    username: "user",
     frequency: "frequency",
+    show_notification: "show_notification",
+    channels: "channels",
 };
+
+SETTINGS = ["username", "show_notification", "channels"];
 
 DEFAULTS = {
     frequency: 10, // interval in seconds to update
+    show_notification: true,
+    channels: [],
 };
 
 SUBSTITUTE = {
@@ -26,6 +32,6 @@ SUBSTITUTE = {
 };
 
 URL = {
-	justintv_favorites: "http://api.justin.tv/api/user/favorites/" + SUBSTITUTE.username + ".json",
-	justintv_stream: "http://api.justin.tv/api/stream/list.json",
+	favorites: "http://api.justin.tv/api/user/favorites/" + SUBSTITUTE.username + ".json",
+	stream: "http://api.justin.tv/api/stream/list.json",
 };

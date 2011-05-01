@@ -8,60 +8,75 @@
  * See the attached LICENSE for more information.
  */
 
-// keep track of online streams
-Configuration.justintv_username = "harpyon";
+// test data
+Configuration.username = "harpyon";
 Configuration.frequency = 300;
 
+// keep track of online streams
 var online = [];
-var justintv_favorites;
+var channels;
 
-function update_justintv_favorites()
+function update_channels()
 {
-	var url = URL.justintv_favorites.replace(SUBSTITUTE.username, Configuration.justintv_username);
+	console.log("Updating channels...");
+	var url = URL.favorites.replace(SUBSTITUTE.username, Configuration.username);
 	$.getJSON(url, null, function(data, textStatus, jqXHR)
 	{
-		justintv_favorites = [];
+		channels = [];
 		$.each(data, function(index, channel)
 		{
-			justintv_favorites.push(channel.login);
+			channels.push(channel.login);
 		});
+
+		// add user-defined channels
+		$.extend(channels, Configuration.channels);
+		console.log("Channels:", channels);
+
+		// update channel statuses
+		poll();
 	});
 }
 
-function poll_justintv()
+function poll()
 {
-	$.each(justintv_favorites, function(index, channel)
+	console.log("Checking channels...");
+	$.each(channels, function(index, channel)
 	{
-		$.getJSON(URL.justintv_stream, { "channel": channel }, (function(channel)
+		$.getJSON(URL.stream, { "channel": channel }, (function(channel)
 		{
 			return function(data, textStatus, jqXHR)
 			{
-				if (data.length > 0)
+				if (data && data.length > 0)
 				{
 					// stream is online
 					stream = data[0];
 					if (online.indexOf(stream.channel.login) == -1)
 					{
-						// it was not online last time we checked - display a notification
-						var title = stream.channel.title;
-						var icon = stream.channel.image_url_tiny;
-						var text = chrome.i18n.getMessage("just_went_online", "Justin.tv");
+						if (Configuration.show_notification)
+						{
+							// it was not online last time we checked - display a notification
+							var title = stream.channel.title;
+							var icon = stream.channel.image_url_tiny;
+							var text = chrome.i18n.getMessage("just_went_online", "Justin.tv");
 
-						webkitNotifications.createNotification(icon, title, text).show();
-
+							webkitNotifications.createNotification(icon, title, text).show();
+						}
 						online.push(stream.channel.login);
+						console.log("Online:", stream.channel.title);
 					}
 				}
 				else
 				{
 					// stream is offline
 					online.splice(online.indexOf(channel), 1);
+					console.log("Offline:", channel);
 				}
 			};
 		})(channel));
 	});
-	setTimeout(poll_justintv, Configuration.frequency);
+	console.log("Next check in " + Configuration.frequency/1000 + " seconds");
+	setTimeout(poll, Configuration.frequency);
 }
 
-update_justintv_favorites();
-setTimeout(poll_justintv, Configuration.frequency);
+// get channel list and start polling
+update_channels();
