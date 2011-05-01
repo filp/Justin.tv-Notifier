@@ -1,0 +1,34 @@
+body:
+	font->
+		family: Calibri, Verdana, Geneva, Arial, Helvetica, sans-serif
+		size: 0.5em
+
+#channels, #footer:
+	width: 100%
+	margin: 2em
+
+#channels:
+	.channel:
+		float: left
+		color: #000
+
+		span:
+			color: #999
+			font->
+				size: 0.5em
+	
+	.status:
+		float: left
+	
+	.online:
+		color: #0F0
+	
+	.offline:
+		color: #F00
+
+#footer:
+	a:
+		text-decoration: none
+
+	a:hover
+		text-decoration: underline

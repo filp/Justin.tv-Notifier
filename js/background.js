@@ -21,7 +21,18 @@ $(function()
 	update_channels();
 });
 
-function update_channels()
+chrome.extension.onConnect.addListener(function(port)
+{
+	port.onMessage.addListener(function(request)
+	{
+		if (request.message == MESSAGE.update_status)
+		{
+			update_channels(port);
+		}
+	});
+});
+
+function update_channels(port)
 {
 	console.log("Updating channels...");
 	var url = URL.favorites.replace(SUBSTITUTE.username, Configuration.username);
@@ -42,19 +53,20 @@ function update_channels()
 		console.log("Channels:", channels);
 
 		// update channel statuses
-		poll();
+		poll(port);
 	});
 }
 
-function poll()
+function poll(port)
 {
 	console.log("Checking channels...");
 	$.each(channels, function(channel, online)
 	{
-		$.getJSON(URL.stream, { "channel": channel }, (function(channel)
+		$.getJSON(URL.stream, { "channel": channel }, (function(channel, port)
 		{
 			return function(data, textStatus, jqXHR)
 			{
+				var title;
 				if (data && data.length > 0)
 				{
 					// stream is online
@@ -64,7 +76,7 @@ function poll()
 						if (Configuration.show_notification)
 						{
 							// it was not online last time we checked - display a notification
-							var title = stream.channel.title;
+							title = stream.channel.title;
 							var icon = stream.channel.image_url_tiny;
 							var text = chrome.i18n.getMessage("just_went_online", "Justin.tv");
 
@@ -80,8 +92,13 @@ function poll()
 					channels[channel] = false;
 					console.log("Offline:", channel);
 				}
+
+				if (port)
+				{
+					port.postMessage([channel, title, channels[channel]]);
+				}
 			};
-		})(channel));
+		})(channel, port));
 	});
 	console.log("Next check in " + Configuration.frequency/1000 + " seconds");
 	setTimeout(poll, Configuration.frequency);

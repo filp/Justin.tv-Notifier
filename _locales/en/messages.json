@@ -11,5 +11,33 @@
 					"example": "Justin.tv"
 			}
 		}
+	},
+
+	"popup_button_title":
+	{
+		"message": "Justin.tv Channel Statuses",
+		"description": "Shown when hovering the browser action (the button)."
+	},
+
+	"popup_title":
+	{
+		"message": "Channels",
+		"description": "Title in the popup."
+	},
+
+	"popup_refresh":
+	{
+		"message": "Refresh",
+		"description": "Link to refresh the channel list at the bottom of the popup."
+	},
+
+	"online":
+	{
+		"message": "Online"
+	},
+
+	"offline":
+	{
+		"message": "Offline"
 	}
 }

@@ -1,6 +1,6 @@
 /*
  * constants.js
- * Constants for JustNotify
+ * JustNotify constants
  *
  * Copyright (C) 2011 Håvard Pettersson.
  *
@@ -35,3 +35,7 @@ URL = {
 	favorites: "http://api.justin.tv/api/user/favorites/" + SUBSTITUTE.username + ".json",
 	stream: "http://api.justin.tv/api/stream/list.json",
 };
+
+MESSAGE = {
+    update_status: "update",
+}
