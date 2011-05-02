@@ -1,32 +1,46 @@
 body {
 	font-family: Calibri, Verdana, Geneva, Arial, Helvetica, sans-serif;
-	font-size: 0.5em;
+	font-size: 1em;
+	text-align: center;
+	background: #F0F0F0;
 }
-#channels,
-#footer {
-	width: 100%;
-	margin: 1em;
+img#jtv {
+	margin-right: 0.5em;
+	display: inline-block;
 }
-#channels .channel {
-	float: left;
+h1 {
+	font-size: 1em;
+	display: block;
+}
+h1.offline {
+	font-size: 0.8em;
+	color: #777;
+	cursor: pointer;
+}
+ul {
+	text-align: left;
+	list-style: none;
+	padding: 0;
+	margin-top: 0;
+	margin-bottom: 0.7em;
+	margin-left: 0;
+	margin-right: 0;
+}
+ul#offline {
+	display: none;
+}
+#channels li {
 	color: #000;
 }
-#channels .channel span {
+#channels li span {
 	color: #999;
-	font-size: 0.5em;
+	margin: 0 0.5em;
 }
-#channels .status {
-	float: left;
-}
-#channels .online {
-	color: #0F0;
-}
-#channels .offline {
-	color: #F00;
-}
-#footer a {
+a {
+	color: black;
 	text-decoration: none;
-	a: hover;
+}
+a:hover {
 	text-decoration: underline;
 }
 

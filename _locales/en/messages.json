@@ -19,25 +19,21 @@
 		"description": "Shown when hovering the browser action (the button)."
 	},
 
-	"popup_title":
+	"popup_live":
 	{
-		"message": "Channels",
-		"description": "Title in the popup."
+		"message": "Currently live",
+		"description": "Header for list of live channels."
 	},
 
-	"popup_refresh":
+	"popup_offline":
 	{
-		"message": "Refresh",
-		"description": "Link to refresh the channel list at the bottom of the popup."
+		"message": "Currently offline",
+		"description": "Header for list of offline channels."
 	},
 
-	"online":
+	"show_offline":
 	{
-		"message": "Online"
-	},
-
-	"offline":
-	{
-		"message": "Offline"
+		"message": "Show offline",
+		"description": "Link to show offline channels."
 	}
 }

@@ -8,7 +8,7 @@
  * See the attached LICENSE for more information.
  */
 
-var port;
+var port, $live, $offline, $channels, $loading;
 
 $(function()
 {
@@ -20,10 +20,56 @@ $(function()
         var name = $element.attr("name");
         var text = chrome.i18n.getMessage(name);
         $element.text(text);
-        console.log(name, text);
     });
 
     $("div#footer > a").click(refresh);
+
+    $channels = $("#channels");
+    $live = $("#live");
+    $offline_header = $("#offline_header");
+    $offline = $("#offline");
+    $loading = $("#loading");
+
+    $offline_header.one("click", function()
+    {
+        $offline_header.text(chrome.i18n.getMessage("popup_offline"));
+        $offline_header.removeClass("offline");
+        $offline.slideDown();
+    });
+
+    $("a").live("click", function()
+    {
+        chrome.tabs.create({ url: $(this).attr("href") });
+    });
+
+    port.onMessage.addListener(function(message)
+    {
+        console.log(message);
+        $loading.hide();
+        $channels.show();
+
+        var $channel = $("<li>");
+        if (message.status)
+        {
+            $channel.append('<a href="http://justin.tv/' + message.channel + '/">' + message.stream.channel.title + '</a>');
+            $channel.append("<span>" + message.channel + "</span>");
+        }
+        else
+        {
+            $channel.append('<a href="http://justin.tv/' + message.channel + '/">' + message.channel + '</a>');
+        }
+        
+        $channel.hide();
+        if (message.status)
+        {
+            $live.append($channel);
+        }
+        else
+        {
+            $offline.append($channel);
+        }
+        $channel.slideDown();
+    });
 
     refresh();
 });
@@ -31,44 +77,7 @@ $(function()
 function refresh()
 {
     console.log("Refreshing...");
+    $channels.hide();
+    $loading.show();
     port.postMessage({ message: MESSAGE.update_status });
-    port.onMessage.addListener(function(message)
-    {
-        console.log(message);
-        var channel = message[0];
-        var title = message[1];
-        var status = message[2];
-
-        var $channel = $("div.channel[name=" + channel + "]");
-        if (!$channel.length)
-        {
-            $channel = $("<div>");
-            $channel.addClass("channel");
-            $channel.attr("name", channel);
-        }
-        $channel.empty();
-
-        if (title)
-        {
-            $channel.text(title);
-            $channel.append("<span>" + channel + "</span>");
-        }
-        else
-        {
-            $channel.text(channel);
-        }
-
-        var $status = $("div.status[name=" + channel + "]");
-        if (!$status.length)
-        {
-            $status = $("<div>");
-            $status.addClass("status");
-            $status.attr("name", channel);
-        }
-        $status.removeClass("online").removeClass("offline");
-        $status.addClass(status ? "online" : "offline");
-        $status.text(status ? chrome.i18n.getMessage("online") : chrome.i18n.getMessage("offline"));
-
-        $("div#channels").append($channel).append($status);
-    });
 }
