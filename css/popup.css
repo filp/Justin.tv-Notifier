@@ -1,7 +1,6 @@
 body {
 	font-family: Calibri, Verdana, Geneva, Arial, Helvetica, sans-serif;
 	font-size: 1em;
-	text-align: center;
 	width: 25em;
 	background: #F0F0F0;
 }
@@ -31,10 +30,24 @@ div#offline {
 }
 #channels li {
 	color: #000;
+	background: white;
+	padding: 6px;
+	border: 1px solid #bbbbbb;
+	-webkit-border-radius: 6px;;
+	border-radius: 6px;;
+	-webkit-box-shadow: 0 1px 0 #696969;
+	box-shadow: 0 1px 0 #696969;
+	margin-bottom: 4px;
+}
+#channels li a {
+	display: block;
+	font-size: 1.1em;
+	font-weight: bold;
+	margin-bottom: 0;
 }
 #channels li span {
-	color: #999;
-	margin: 0 0.5em;
+	color: #777;
+	font-size: 0.7em;
 }
 a {
 	color: black;
