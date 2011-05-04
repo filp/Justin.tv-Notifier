@@ -2,14 +2,15 @@ body {
 	font-family: Calibri, Verdana, Geneva, Arial, Helvetica, sans-serif;
 	font-size: 1em;
 	text-align: center;
+	width: 25em;
 	background: #F0F0F0;
 }
-img#jtv {
-	margin-right: 0.5em;
-	display: inline-block;
+img {
+	display: block;
+	margin: 0 auto;
 }
 h1 {
-	font-size: 1em;
+	font-size: 1.2em;
 	display: block;
 }
 h1.offline {
@@ -18,7 +19,6 @@ h1.offline {
 	cursor: pointer;
 }
 ul {
-	text-align: left;
 	list-style: none;
 	padding: 0;
 	margin-top: 0;
@@ -26,7 +26,7 @@ ul {
 	margin-left: 0;
 	margin-right: 0;
 }
-ul#offline {
+div#offline {
 	display: none;
 }
 #channels li {
@@ -42,5 +42,8 @@ a {
 }
 a:hover {
 	text-decoration: underline;
+}
+a.offline {
+	margin: 0 0.25em;
 }
 

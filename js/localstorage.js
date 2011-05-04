@@ -1,6 +1,6 @@
 /*
  * localstorage.js
- * Service and localStorage framework for JustNotify
+ * Service and localStorage framework for JTV Notifier
  *
  * Copyright (C) 2011 Håvard Pettersson.
  *

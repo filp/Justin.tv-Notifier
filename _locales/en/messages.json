@@ -35,5 +35,10 @@
 	{
 		"message": "Show offline",
 		"description": "Link to show offline channels."
+	},
+	"none":
+	{
+		"message": "Nobody!",
+		"description": "No channels online."
 	}
 }

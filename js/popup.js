@@ -1,6 +1,6 @@
 /*
  * popup.js
- * JustNotify popup script
+ * JTV Notifier popup script
  *
  * Copyright (C) 2011 Håvard Pettersson.
  *
@@ -26,6 +26,7 @@ $(function()
 
     $channels = $("#channels");
     $live = $("#live");
+    $live_none = $("#live").children("span");
     $offline_header = $("#offline_header");
     $offline = $("#offline");
     $loading = $("#loading");
@@ -45,30 +46,23 @@ $(function()
     port.onMessage.addListener(function(message)
     {
         console.log(message);
-        $loading.hide();
-        $channels.show();
+        $loading.slideUp();
+        $channels.slideDown();
 
-        var $channel = $("<li>");
         if (message.status)
         {
-            $channel.append('<a href="http://justin.tv/' + message.channel + '/">' + message.stream.channel.title + '</a>');
-            $channel.append("<span>" + message.channel + "</span>");
+            var $channel = $('<a href="http://justin.tv/' + message.channel + '/">' + message.stream.channel.title + '</a>');
+            $live.append($("<li>").append($channel).append("<span>" + message.channel + "</span>").hide().slideDown());
+            $live_none.hide();
         }
         else
         {
-            $channel.append('<a href="http://justin.tv/' + message.channel + '/">' + message.channel + '</a>');
+            $offline.append($('<a class="offline" href="http://justin.tv/' + message.channel + '/">' + message.channel + '</a>'));
+            if ($live.children().length < 2)
+            {
+                $live_none.show();
+            }
         }
-        
-        $channel.hide();
-        if (message.status)
-        {
-            $live.append($channel);
-        }
-        else
-        {
-            $offline.append($channel);
-        }
-        $channel.slideDown();
     });
 
     refresh();

@@ -1,5 +1,5 @@
 {
-    "name": "JustNotify",
+    "name": "Justin.tv Notifier",
     "version": "0",
     "description": "Check the status of your favourite Justin.tv streams, and display a notification when a stream goes online!",
     "background_page": "html/background.html",

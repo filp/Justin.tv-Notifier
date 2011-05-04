@@ -1,6 +1,6 @@
 /*
  * constants.js
- * JustNotify constants
+ * JTV Notifier constants
  *
  * Copyright (C) 2011 Håvard Pettersson.
  *
@@ -8,7 +8,7 @@
  * See the attached LICENSE for more information.
  */
 
-APPNAME = "LiveNotify";
+APPNAME = "Justin.tv Notifier";
 VERSION = "0";
 
 KEY = {

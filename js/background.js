@@ -1,6 +1,6 @@
 /*
  * background.js
- * JustNotify background script
+ * JTV Notifier background script
  *
  * Copyright (C) 2011 Håvard Pettersson.
  *
@@ -84,6 +84,7 @@ function poll(port)
 							webkitNotifications.createNotification(icon, title, text).show();
 						}
 						channels[channel] = true;
+
 						console.log("Online:", stream.channel.title);
 
 						if (port)
@@ -103,9 +104,23 @@ function poll(port)
 						port.postMessage({ channel: channel, status: false });
 					}
 				}
+				var online = get_online().length;
+				chrome.browserAction.setBadgeText({ text: online > 0 ? online+"" : "" });
+				chrome.browserAction.setBadgeBackgroundColor({ color: [0, 255, 0, 255] });
 			};
 		})(channel, port));
 	});
 	console.log("Next check in " + Configuration.frequency/1000 + " seconds");
 	setTimeout(poll, Configuration.frequency);
+}
+
+function get_online()
+{
+	var online = [];
+	$.each(channels, function(key, value)
+	{
+		if (value)
+			online.push(key);
+	});
+	return online;
 }
